@@ -90,10 +90,18 @@ function App() {
     content = <Article title="Welcome" body="Hello, WEB"></Article>
   } else if (mode === 'READ'){
     topics.map(item => item.id === id ? content = <Article title={item.title} body={item.body}></Article> : null );
-    contextControl = <li><a href={`/update/${id}`} onClick={event => {
-      event.preventDefault();
-      setMode('UPDATE');
-    }}>upadate</a></li>;
+    contextControl = 
+    <>
+      <li><a href={`/update/${id}`} onClick={event => {
+        event.preventDefault();
+        setMode('UPDATE');
+      }}>upadate</a></li>
+      <li><input type='button' value="Delete" onClick={()=>{
+        const updatedTopics = topics.filter(topics => topics.id !== id).map(topic => ({...topic}));
+        setTopics(updatedTopics)
+        setMode('WELCOME')
+      }}></input></li>
+    </>;
   } else if (mode === 'CREATE'){
     content = <Create onCreate={(_title, _body)=>{
       const newTopic = {id:nextId, title:_title, body:_body}
